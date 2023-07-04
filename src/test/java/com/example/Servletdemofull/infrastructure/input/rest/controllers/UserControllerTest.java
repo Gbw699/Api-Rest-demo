@@ -109,7 +109,7 @@ class UserControllerTest {
     }
 
     @Test
-    void deleteAllUsers() throws Exception{
+    void deleteAllUsers() throws Exception {
         //given
         List<User> users = new ArrayList<>();
 
@@ -123,6 +123,17 @@ class UserControllerTest {
     }
 
     @Test
-    void deleteUserById() {
+    void deleteUserById() throws Exception {
+        //given
+        UUID id = UUID.randomUUID();
+        User user = new User(id, "Juan", "Perez", "grg@gmail.com", "+542616320489");
+
+        //expectation
+        when(userRepository.findById(id)).thenReturn(Optional.of(user));
+
+        //perform
+        mockMvc.perform(delete("/api/user/{id}", id))
+                .andExpect(status().isOk())
+                .andDo(print());
     }
 }
