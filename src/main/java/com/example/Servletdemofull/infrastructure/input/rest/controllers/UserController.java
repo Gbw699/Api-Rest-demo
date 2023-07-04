@@ -22,7 +22,6 @@ import java.util.UUID;
 public class UserController {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-
     private final Logger logger;
 
     public UserController(UserRepository userRepository, UserMapper userMapper) {
