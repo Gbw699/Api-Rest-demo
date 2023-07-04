@@ -97,7 +97,7 @@ class UserControllerTest {
         UUID id = UUID.randomUUID();
         User user = new User(id, "Juan", "Perez", "grg@gmail.com", "+542616320489");
 
-        //expectation (se utliza cuando se espera algo de la BDD)
+        //expectation
         when(userRepository.findById(id)).thenReturn(Optional.of(user));
 //        when(userRepository.save(user)).thenReturn(null);
 
@@ -109,7 +109,17 @@ class UserControllerTest {
     }
 
     @Test
-    void deleteAllUsers() {
+    void deleteAllUsers() throws Exception{
+        //given
+        List<User> users = new ArrayList<>();
+
+        //expectation
+        when(userRepository.findAll()).thenReturn(users);
+
+        //perform
+        mockMvc.perform(delete("/api/user"))
+                .andExpect(status().isOk())
+                .andDo(print());
     }
 
     @Test
