@@ -11,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -114,7 +115,8 @@ class UserControllerTest {
         List<User> users = new ArrayList<>();
 
         //expectation
-        when(userRepository.findAll()).thenReturn(users);
+//        when(userRepository.findAll()).thenReturn(users);
+        doNothing().when(userRepository).deleteAll();
 
         //perform
         mockMvc.perform(delete("/api/user"))
@@ -125,15 +127,18 @@ class UserControllerTest {
     @Test
     void deleteUserById() throws Exception {
         //given
-        UUID id = UUID.randomUUID();
+        UUID id = UUID.fromString("a0e0a6e5-5b76-4e39-8842-33120204d1d8");
         User user = new User(id, "Juan", "Perez", "grg@gmail.com", "+542616320489");
 
         //expectation
-        when(userRepository.findById(id)).thenReturn(Optional.of(user));
-
+        when(userRepository.findById(id)).thenReturn(Optional.of(user), Optional.empty());
         //perform
         mockMvc.perform(delete("/api/user/{id}", id))
                 .andExpect(status().isOk())
+                .andDo(print());
+
+        mockMvc.perform(delete("/api/user/{id}", id))
+                .andExpect(status().isNotFound())
                 .andDo(print());
     }
 }
