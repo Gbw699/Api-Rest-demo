@@ -103,13 +103,18 @@ class UserControllerTest {
         User user = new User(id, "Juan", "Perez", "grg@gmail.com", "+542616320489");
 
         //expectation
-        when(userRepository.findById(id)).thenReturn(Optional.of(user));
+        when(userRepository.findById(id)).thenReturn(Optional.of(user), Optional.empty());
 //        when(userRepository.save(user)).thenReturn(null);
 
         //perform
         mockMvc.perform(put("/api/user/{id}", id).contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(user)))
                 .andExpect(status().isOk())
+                .andDo(print());
+
+        mockMvc.perform(put("/api/user/{id}", id).contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(user)))
+                .andExpect(status().isNotFound())
                 .andDo(print());
     }
 
