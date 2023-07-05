@@ -3,7 +3,6 @@ package com.example.Servletdemofull.infrastructure.output.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
@@ -13,7 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class User {
+public class Patient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

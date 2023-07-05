@@ -13,7 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class UserDto {
+public class PatientDto {
 
     private UUID id;
 
