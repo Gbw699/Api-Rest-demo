@@ -51,14 +51,11 @@ public class UserController {
 
         Optional<User> user = userRepository.findById(id);
 
+        if (user.isEmpty()) return ResponseEntity.notFound().build();
+
         logger.debug("Output {}", user.get().toString());
 
-        return user.map(value -> ResponseEntity
-                .ok()
-                .body(value)).orElseGet(() -> ResponseEntity
-                .notFound()
-                .build());
-
+        return new ResponseEntity<>(user.get(), HttpStatus.OK);
     }
 
     @PostMapping("")

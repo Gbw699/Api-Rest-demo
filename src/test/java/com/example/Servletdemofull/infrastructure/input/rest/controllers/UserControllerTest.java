@@ -65,15 +65,19 @@ class UserControllerTest {
     @Test
     void getUserById() throws Exception {
         //given
-        UUID id = UUID.randomUUID();
-        User user = new User(UUID.randomUUID(), "Juan", "Perez", "grg@gmail.com", "+542616320489");
+        UUID id = UUID.fromString("9bc28702-826b-4d60-b4c5-015f24484d6d");
+        User user = new User(id, "Juan", "Perez", "grg@gmail.com", "+542616320489");
 
         //expectation
-        when(userRepository.findById(id)).thenReturn(Optional.of(user));
+        when(userRepository.findById(id)).thenReturn(Optional.of(user), Optional.empty());
 
         //performs
         mockMvc.perform(get("/api/user/{id}", id))
                 .andExpect(status().isOk())
+                .andDo(print());
+
+        mockMvc.perform(get("/api/user/{id}", id))
+                .andExpect(status().isNotFound())
                 .andDo(print());
     }
 
