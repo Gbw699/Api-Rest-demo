@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @RestController
 @Validated
-@RequestMapping("/api/patient")
+@RequestMapping("/api/v1/patient")
 public class PatientController {
     private final PatientRepository patientRepository;
     private final PatientMapper patientMapper;
