@@ -6,7 +6,7 @@ import lombok.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "servlet_user")
+@Table(name = "_patient")
 @Getter
 @Setter
 @NoArgsConstructor
