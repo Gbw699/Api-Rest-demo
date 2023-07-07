@@ -3,7 +3,6 @@ package com.example.Servletdemofull.infrastructure.input.rest.controllers;
 import com.example.Servletdemofull.config.JWT.JwtService;
 import com.example.Servletdemofull.domain.user.RoleEnum;
 import com.example.Servletdemofull.infrastructure.output.entity.Patient;
-import com.example.Servletdemofull.infrastructure.input.rest.mappers.PatientMapper;
 import com.example.Servletdemofull.infrastructure.output.entity.User;
 import com.example.Servletdemofull.infrastructure.output.repository.PatientRepository;
 
@@ -12,13 +11,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -39,9 +37,6 @@ class PatientControllerTest {
     @MockBean
     private PatientRepository patientRepository;
 
-    @MockBean
-    private PatientMapper patientMapper;
-
     @Autowired
     private MockMvc mockMvc;
 
@@ -50,8 +45,6 @@ class PatientControllerTest {
 
     @Autowired
     private JwtService jwtService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     User mock = new User(null, "Juan", "Pedrera", "pedrera@gmail.com", "admin", RoleEnum.ADMIN);
 
@@ -106,7 +99,6 @@ class PatientControllerTest {
         Patient patient = new Patient(UUID.randomUUID(), "Juan", "Perez", "grg@gmail.com", "+542616320489");
 
         //expectation (se utliza cuando se espera algo de la BDD)
-//        when(userRepository.save(user)).thenReturn(null);
 
         //perform
         mockMvc.perform(post("/api/v1/patient")
@@ -126,7 +118,6 @@ class PatientControllerTest {
 
         //expectation
         when(patientRepository.findById(id)).thenReturn(Optional.of(patient), Optional.empty());
-//        when(userRepository.save(user)).thenReturn(null);
 
         //perform
         mockMvc.perform(put("/api/v1/patient/{id}", id)
