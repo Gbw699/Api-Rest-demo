@@ -1,12 +1,22 @@
 package com.example.Servletdemofull.infrastructure.input.rest.controllers;
 
+import com.example.Servletdemofull.config.JWT.JwtService;
+import com.example.Servletdemofull.domain.user.RoleEnum;
+import com.example.Servletdemofull.infrastructure.input.rest.dtos.AuthenticationResponseDto;
 import com.example.Servletdemofull.infrastructure.output.entity.Patient;
 import com.example.Servletdemofull.infrastructure.input.rest.mappers.PatientMapper;
+import com.example.Servletdemofull.infrastructure.output.entity.User;
 import com.example.Servletdemofull.infrastructure.output.repository.PatientRepository;
 
 import org.junit.jupiter.api.Test;
 
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -23,7 +33,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.*;
 
-@WebMvcTest(PatientController.class)
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 class PatientControllerTest {
 
     @MockBean
@@ -38,7 +50,13 @@ class PatientControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private JwtService jwtService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Test
+    @WithMockUser
     void getAllPatients() throws Exception {
         //given
         List<Patient> patients = new ArrayList<>(
@@ -49,26 +67,33 @@ class PatientControllerTest {
                 )
         );
 
+        User mock = new User(null, "Juan", "Pedrera", "pedrera@gmail.com", "admin", RoleEnum.ADMIN);
+
         //expectation
         when(patientRepository.findAll()).thenReturn(patients);
 
         //performs
-        mockMvc.perform(get("/api/patient"))
+        mockMvc.perform(get("/api/v1/patient")
+                        .header("Authorization", "Bearer " + generateTestToken(mock)))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
 
     @Test
+    @WithMockUser
     void getPatientById() throws Exception {
         //given
         UUID id = UUID.fromString("9bc28702-826b-4d60-b4c5-015f24484d6d");
         Patient patient = new Patient(id, "Juan", "Perez", "grg@gmail.com", "+542616320489");
 
+        User mock = new User(null, "Juan", "Pedrera", "pedrera@gmail.com", "admin", RoleEnum.ADMIN);
+
         //expectation
         when(patientRepository.findById(id)).thenReturn(Optional.of(patient), Optional.empty());
 
         //performs
-        mockMvc.perform(get("/api/patient/{id}", id))
+        mockMvc.perform(get("/api/patient/{id}", id)
+                        .header("Authorization", "Bearer " + generateTestToken(mock)))
                 .andExpect(status().isOk())
                 .andDo(print());
 
@@ -146,5 +171,13 @@ class PatientControllerTest {
         mockMvc.perform(delete("/api/patient/{id}", id))
                 .andExpect(status().isNotFound())
                 .andDo(print());
+    }
+
+    private String generateTestToken(User user) {
+//        User user = User.builder()
+//                .email("gdbarimboim@gmail.com")
+//                .build();
+
+        return jwtService.generateToken(user);
     }
 }
