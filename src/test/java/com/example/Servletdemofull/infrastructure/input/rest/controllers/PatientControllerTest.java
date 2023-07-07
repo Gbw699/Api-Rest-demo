@@ -123,22 +123,28 @@ class PatientControllerTest {
     }
 
     @Test
+    @WithMockUser
     void updatePatient() throws Exception {
         //Given
         UUID id = UUID.randomUUID();
         Patient patient = new Patient(id, "Juan", "Perez", "grg@gmail.com", "+542616320489");
+        User mock = new User(null, "Juan", "Pedrera", "pedrera@gmail.com", "admin", RoleEnum.ADMIN);
 
         //expectation
         when(patientRepository.findById(id)).thenReturn(Optional.of(patient), Optional.empty());
 //        when(userRepository.save(user)).thenReturn(null);
 
         //perform
-        mockMvc.perform(put("/api/v1/patient/{id}", id).contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(put("/api/v1/patient/{id}", id)
+                        .header("Authorization", "Bearer " + generateTestToken(mock))
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(patient)))
                 .andExpect(status().isOk())
                 .andDo(print());
 
-        mockMvc.perform(put("/api/v1/patient/{id}", id).contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(put("/api/v1/patient/{id}", id)
+                        .header("Authorization", "Bearer " + generateTestToken(mock))
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(patient)))
                 .andExpect(status().isNotFound())
                 .andDo(print());
