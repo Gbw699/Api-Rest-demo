@@ -92,12 +92,13 @@ class PatientControllerTest {
         when(patientRepository.findById(id)).thenReturn(Optional.of(patient), Optional.empty());
 
         //performs
-        mockMvc.perform(get("/api/patient/{id}", id)
+        mockMvc.perform(get("/api/v1/patient/{id}", id)
                         .header("Authorization", "Bearer " + generateTestToken(mock)))
                 .andExpect(status().isOk())
                 .andDo(print());
 
-        mockMvc.perform(get("/api/patient/{id}", id))
+        mockMvc.perform(get("/api/v1/patient/{id}", id)
+                        .header("Authorization", "Bearer " + generateTestToken(mock)))
                 .andExpect(status().isNotFound())
                 .andDo(print());
     }
@@ -111,7 +112,7 @@ class PatientControllerTest {
 //        when(userRepository.save(user)).thenReturn(null);
 
         //perform
-        mockMvc.perform(post("/api/patient").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/api/v1/patient").contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(patient)))
                 .andExpect(status().isOk())
                 .andDo(print());
@@ -128,12 +129,12 @@ class PatientControllerTest {
 //        when(userRepository.save(user)).thenReturn(null);
 
         //perform
-        mockMvc.perform(put("/api/patient/{id}", id).contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(put("/api/v1/patient/{id}", id).contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(patient)))
                 .andExpect(status().isOk())
                 .andDo(print());
 
-        mockMvc.perform(put("/api/patient/{id}", id).contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(put("/api/v1/patient/{id}", id).contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(patient)))
                 .andExpect(status().isNotFound())
                 .andDo(print());
@@ -149,7 +150,7 @@ class PatientControllerTest {
         doNothing().when(patientRepository).deleteAll();
 
         //perform
-        mockMvc.perform(delete("/api/patient"))
+        mockMvc.perform(delete("/api/v1/patient"))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -164,11 +165,11 @@ class PatientControllerTest {
         when(patientRepository.findById(id)).thenReturn(Optional.of(patient), Optional.empty());
 
         //perform
-        mockMvc.perform(delete("/api/patient/{id}", id))
+        mockMvc.perform(delete("/api/v1/patient/{id}", id))
                 .andExpect(status().isOk())
                 .andDo(print());
 
-        mockMvc.perform(delete("/api/patient/{id}", id))
+        mockMvc.perform(delete("/api/v1/patient/{id}", id))
                 .andExpect(status().isNotFound())
                 .andDo(print());
     }
