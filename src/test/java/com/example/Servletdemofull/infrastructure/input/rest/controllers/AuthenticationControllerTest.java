@@ -74,8 +74,6 @@ class AuthenticationControllerTest {
     void authenticationTest() throws Exception {
         //given
         AuthenticationRequestDto requestDto = new AuthenticationRequestDto("gdbarimboim@gmail.com", "admin");
-        User user = new User(null, "Gaby", "Barimboim", "gdbarimboim@gmail.com", "admin", RoleEnum.ADMIN);
-        userRepository.save(user);
 
         //expectation
 //        when(userRepository.findByEmail(requestDto.getEmail())).thenReturn(user);
