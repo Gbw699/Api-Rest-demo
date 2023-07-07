@@ -28,7 +28,6 @@ public class SecurityConfig {
         http
                 // el csrf no permite manejar pedidos que realizan modificaciones sin un csrf token
                 .csrf(AbstractHttpConfigurer::disable)
-                //.securityMatcher("/api/**")
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/v1/auth/**")
                         .permitAll()
@@ -38,7 +37,6 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-        //.httpBasic(withDefaults());
         return http.build();
     }
 }
