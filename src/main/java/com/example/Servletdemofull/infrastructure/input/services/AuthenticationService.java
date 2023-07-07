@@ -31,7 +31,7 @@ public class AuthenticationService {
                 .lastname(requestDto.getLastname())
                 .email(requestDto.getEmail())
                 .password(passwordEncoder.encode(requestDto.getPassword()))
-                .role(RoleEnum.USER)
+                .role(RoleEnum.ADMIN)
                 .build();
         repository.save(user);
 
