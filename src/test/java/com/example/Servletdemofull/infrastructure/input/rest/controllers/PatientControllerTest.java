@@ -104,15 +104,19 @@ class PatientControllerTest {
     }
 
     @Test
+    @WithMockUser
     void createPatient() throws Exception {
         //Given
         Patient patient = new Patient(UUID.randomUUID(), "Juan", "Perez", "grg@gmail.com", "+542616320489");
+        User mock = new User(null, "Juan", "Pedrera", "pedrera@gmail.com", "admin", RoleEnum.ADMIN);
 
         //expectation (se utliza cuando se espera algo de la BDD)
 //        when(userRepository.save(user)).thenReturn(null);
 
         //perform
-        mockMvc.perform(post("/api/v1/patient").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/api/v1/patient")
+                        .header("Authorization", "Bearer " + generateTestToken(mock))
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(patient)))
                 .andExpect(status().isOk())
                 .andDo(print());
