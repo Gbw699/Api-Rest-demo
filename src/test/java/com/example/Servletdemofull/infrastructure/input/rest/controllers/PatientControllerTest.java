@@ -169,16 +169,19 @@ class PatientControllerTest {
     }
 
     @Test
+    @WithMockUser
     void deletePatientById() throws Exception {
         //given
         UUID id = UUID.fromString("a0e0a6e5-5b76-4e39-8842-33120204d1d8");
         Patient patient = new Patient(id, "Juan", "Perez", "grg@gmail.com", "+542616320489");
+        User mock = new User(null, "Juan", "Pedrera", "pedrera@gmail.com", "admin", RoleEnum.ADMIN);
 
         //expectation
         when(patientRepository.findById(id)).thenReturn(Optional.of(patient), Optional.empty());
 
         //perform
-        mockMvc.perform(delete("/api/v1/patient/{id}", id))
+        mockMvc.perform(delete("/api/v1/patient/{id}", id)
+                        .header("Authorization", "Bearer " + generateTestToken(mock)))
                 .andExpect(status().isOk())
                 .andDo(print());
 
