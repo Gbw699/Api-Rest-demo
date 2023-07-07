@@ -22,14 +22,14 @@ public class AuthenticationController {
     private final AuthenticationService service;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponseDto> Register(
+    public ResponseEntity<AuthenticationResponseDto> register(
             @RequestBody RegisterRequestDto request
     ) {
         return ResponseEntity.ok(service.register(request));
     }
 
     @PostMapping("/authentication")
-    public ResponseEntity<AuthenticationResponseDto> Register(
+    public ResponseEntity<AuthenticationResponseDto> authentication(
             @RequestBody AuthenticationRequestDto request
     ) {
         return ResponseEntity.ok(service.authenticate(request));

@@ -137,6 +137,7 @@ class PatientControllerTest {
 
         //expectation
         when(patientRepository.findById(id)).thenReturn(Optional.of(patient), Optional.empty());
+
         //perform
         mockMvc.perform(delete("/api/patient/{id}", id))
                 .andExpect(status().isOk())
