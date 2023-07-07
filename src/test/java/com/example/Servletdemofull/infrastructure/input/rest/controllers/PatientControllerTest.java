@@ -151,16 +151,19 @@ class PatientControllerTest {
     }
 
     @Test
+    @WithMockUser
     void deleteAllPatients() throws Exception {
         //given
         List<Patient> patients = new ArrayList<>();
+        User mock = new User(null, "Juan", "Pedrera", "pedrera@gmail.com", "admin", RoleEnum.ADMIN);
 
         //expectation
 //        when(userRepository.findAll()).thenReturn(users);
         doNothing().when(patientRepository).deleteAll();
 
         //perform
-        mockMvc.perform(delete("/api/v1/patient"))
+        mockMvc.perform(delete("/api/v1/patient")
+                        .header("Authorization", "Bearer " + generateTestToken(mock)))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
