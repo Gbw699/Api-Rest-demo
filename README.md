@@ -7,3 +7,4 @@
 - Spring security
 - JWT
 - JUnit
+- Docker
