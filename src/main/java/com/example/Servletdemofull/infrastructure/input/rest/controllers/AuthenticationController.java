@@ -3,7 +3,7 @@ package com.example.Servletdemofull.infrastructure.input.rest.controllers;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 
-import com.example.Servletdemofull.infrastructure.input.services.AuthenticationService;
+import com.example.Servletdemofull.application.services.AuthenticationService;
 import com.example.Servletdemofull.infrastructure.input.rest.dtos.RegisterRequestDto;
 import com.example.Servletdemofull.infrastructure.input.rest.dtos.AuthenticationRequestDto;
 import com.example.Servletdemofull.infrastructure.input.rest.dtos.AuthenticationResponseDto;

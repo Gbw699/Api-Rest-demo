@@ -1,4 +1,4 @@
-package com.example.Servletdemofull.infrastructure.input.services;
+package com.example.Servletdemofull.application.services;
 
 import org.springframework.stereotype.Service;
 
