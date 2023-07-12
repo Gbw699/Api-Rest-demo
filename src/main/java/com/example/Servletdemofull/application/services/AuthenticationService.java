@@ -16,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -26,6 +28,11 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponseDto register(RegisterRequestDto requestDto) {
+
+        if (ifUserExist(requestDto.getEmail())) return AuthenticationResponseDto.builder()
+                .token("User already exist")
+                .build();
+
         var user = User.builder()
                 .firstname(requestDto.getFirstname())
                 .lastname(requestDto.getLastname())
@@ -55,5 +62,11 @@ public class AuthenticationService {
         return AuthenticationResponseDto.builder()
                 .token(jwtToken)
                 .build();
+    }
+
+    public Boolean ifUserExist(String email) {
+
+        Optional<User> user = repository.findByEmail(email);
+        return user.isPresent();
     }
 }
