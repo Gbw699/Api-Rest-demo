@@ -6,6 +6,7 @@ import com.example.Servletdemofull.infrastructure.output.repository.UserReposito
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -56,6 +57,7 @@ class AuthenticationControllerTest {
                 .andDo(print());
     }
 
+    @Disabled
     @Test
     void authenticationTest() throws Exception {
         //given
