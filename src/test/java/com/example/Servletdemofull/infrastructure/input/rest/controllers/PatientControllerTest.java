@@ -115,6 +115,7 @@ class PatientControllerTest {
         //Given
         UUID id = UUID.randomUUID();
         Patient patient = new Patient(id, "Juan", "Perez", "grg@gmail.com", "+542616320489");
+        Patient patient2 = new Patient(UUID.fromString("f6fe7b6f-c692-4263-b208-e0b3aa0b7e2c"), "Juan", "Perez", "grg@gmail.com", "+542616320489");
 
         //expectation
         when(patientRepository.findById(id)).thenReturn(Optional.of(patient), Optional.empty());
@@ -132,6 +133,13 @@ class PatientControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(patient)))
                 .andExpect(status().isNotFound())
+                .andDo(print());
+
+        mockMvc.perform(put("/api/v1/patient/{id}", id)
+                        .header("Authorization", "Bearer " + generateTestToken(mock))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(patient2)))
+                .andExpect(status().isBadRequest())
                 .andDo(print());
     }
 
