@@ -10,7 +10,6 @@
 
 # Generated files
 .idea/**/contentModel.xml
-.target/**/PatientMapperImpl.java
 
 # Sensitive or high-churn files
 .idea/**/dataSources/
@@ -123,3 +122,4 @@ replay_pid*
 /target/surefire-reports/TEST-com.example.Servletdemofull.infrastructure.input.rest.controllers.AuthenticationControllerTest.xml
 /target/surefire-reports/TEST-com.example.Servletdemofull.infrastructure.input.rest.controllers.PatientControllerTest.xml
 /target/surefire-reports/TEST-com.example.Servletdemofull.ServletDemoFullApplicationTests.xml
+/target/generated-sources/annotations/com/example/Servletdemofull/infrastructure/input/rest/mappers/PatientMapperImpl.java
