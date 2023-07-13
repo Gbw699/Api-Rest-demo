@@ -1,10 +1,11 @@
 # Tecnologías del proyecto
 
-- Lombok
-- JDBC
+- Spring Boot
 - JPA (Hibernate ORM)
 - PostgreSQL
+- JUnit
 - Spring security
 - JWT
-- JUnit
 - Docker
+- Lombok
+- Mapstruck
