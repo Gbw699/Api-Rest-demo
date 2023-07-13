@@ -74,6 +74,10 @@ public class PatientController {
 
         logger.debug("Input parameters id {}, body {}", id, patientDto.toString());
 
+        if (!id.equals(patientDto.getId())) {
+            return new ResponseEntity<>("El id de la URL y el id del json no coinciden", HttpStatus.BAD_REQUEST);
+        }
+
         Optional<Patient> patientToUpdate = patientRepository.findById(id);
 
         if (patientToUpdate.isEmpty())
