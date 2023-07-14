@@ -1,5 +1,6 @@
 package com.example.Servletdemofull.infrastructure.input.rest.controllers;
 
+import com.example.Servletdemofull.application.services.RegisterService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 
@@ -22,19 +23,20 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final AuthenticationService service;
+    private final RegisterService registerService;
+    private final AuthenticationService authenticateService;
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponseDto> register(
             @RequestBody @Valid RegisterRequestDto request
     ) {
-        return ResponseEntity.ok(service.register(request));
+        return ResponseEntity.ok(registerService.register(request));
     }
 
     @PostMapping("/authentication")
     public ResponseEntity<AuthenticationResponseDto> authentication(
             @RequestBody @Valid AuthenticationRequestDto request
     ) {
-        return ResponseEntity.ok(service.authenticate(request));
+        return ResponseEntity.ok(authenticateService.authenticate(request));
     }
 }
