@@ -2,8 +2,9 @@ package com.example.Servletdemofull.application.utils;
 
 import com.example.Servletdemofull.infrastructure.output.entity.User;
 import com.example.Servletdemofull.infrastructure.output.repository.UserRepository;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
+
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
