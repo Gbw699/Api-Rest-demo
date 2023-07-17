@@ -38,8 +38,8 @@ public class RegisterService {
         repository.save(user);
 
         var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponseDto.builder()
-                .token(jwtToken)
-                .build();
+            return AuthenticationResponseDto.builder()
+                    .token(jwtToken)
+                    .build();
     }
 }
