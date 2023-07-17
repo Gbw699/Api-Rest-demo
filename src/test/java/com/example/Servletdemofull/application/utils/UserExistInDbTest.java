@@ -39,4 +39,15 @@ class UserExistInDbTest {
 
         Assertions.assertEquals(true, response);
     }
+
+    @Test
+    void ifUserNotExist() {
+        String email = "carlitos@gmail.com";
+
+        when(repository.findByEmail(email)).thenReturn(Optional.empty());
+
+        Boolean response = userExistInDb.ifUserExist(email);
+
+        Assertions.assertEquals(false, response);
+    }
 }
