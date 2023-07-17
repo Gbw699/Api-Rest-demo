@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import org.springframework.security.authentication.AuthenticationManager;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
@@ -49,5 +50,16 @@ class AuthenticationServiceTest {
         AuthenticationResponseDto responseDto = authenticationService.authenticate(requestDto);
 
         Assertions.assertEquals(jwtToken, responseDto.getToken());
+    }
+
+    @Test
+    void noValuePresent() {
+        AuthenticationRequestDto requestDto = new AuthenticationRequestDto("carlitos@gmail.com", "admin");
+
+        when(repository.findByEmail(requestDto.getEmail())).thenReturn(Optional.empty());
+
+        Exception exception = Assertions.assertThrows(NoSuchElementException.class, () -> authenticationService.authenticate(requestDto));
+
+        Assertions.assertEquals("No value present", exception.getMessage());
     }
 }
