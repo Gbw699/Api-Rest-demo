@@ -81,7 +81,7 @@ class PatientControllerTest {
 
     @Test
     @WithMockUser
-    void getPatientById() throws Exception {
+    void getPatientByIdTest() throws Exception {
         //given
         UUID id = UUID.fromString("9bc28702-826b-4d60-b4c5-015f24484d6d");
         Patient patient = new Patient(id, "Juan", "Perez", "grg@gmail.com", "+542616320489");
