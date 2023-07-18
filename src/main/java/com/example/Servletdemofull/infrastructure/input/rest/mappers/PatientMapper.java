@@ -9,6 +9,10 @@ import org.mapstruct.Named;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface PatientMapper {
 
-    @Named("fromUserDto")
-    Patient fromUserDto(PatientDto patientDto);
+    @Named("fromPatientDto")
+    Patient fromPatientDto(PatientDto patientDto);
+
+    @Named("fromPatient")
+    PatientDto fromPatient(Patient patient);
+
 }

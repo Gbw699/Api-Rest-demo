@@ -74,13 +74,14 @@ public class PatientController {
 
     @PostMapping("")
     public ResponseEntity<PatientDto> createPatient(@RequestBody @Valid PatientDto patientDto) {
+        logger.debug("Input parameter patientDto {}", patientDto);
 
-        Patient patient = patientMapper.fromUserDto(patientDto);
+        Patient patient = patientMapper.fromPatientDto(patientDto);
         patientRepository.save(patient);
+        PatientDto patientDto1 = patientMapper.fromPatient(patient);
 
-        logger.debug("Output {}", patientDto.toString());
-
-        return ResponseEntity.ok().body(patientDto);
+        logger.debug("Output {}", patientDto1.toString());
+        return ResponseEntity.ok().body(patientDto1);
     }
 
     @PutMapping("/{id}")
