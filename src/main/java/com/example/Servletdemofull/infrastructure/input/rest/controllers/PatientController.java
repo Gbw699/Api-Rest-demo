@@ -1,5 +1,6 @@
 package com.example.Servletdemofull.infrastructure.input.rest.controllers;
 
+import com.example.Servletdemofull.application.services.GetPatientByIdService;
 import com.example.Servletdemofull.infrastructure.output.entity.Patient;
 import com.example.Servletdemofull.infrastructure.input.rest.dtos.PatientDto;
 import com.example.Servletdemofull.application.services.GetAllPatientsService;
@@ -30,13 +31,16 @@ public class PatientController {
     private final PatientMapper patientMapper;
     private final Logger logger;
     private final GetAllPatientsService getAllPatientsService;
+    private final GetPatientByIdService getPatientByIdService;
 
     public PatientController(PatientRepository patientRepository,
                              PatientMapper patientMapper,
-                             GetAllPatientsService getAllPatientsService) {
+                             GetAllPatientsService getAllPatientsService,
+                             GetPatientByIdService getPatientByIdService) {
         this.patientRepository = patientRepository;
         this.patientMapper = patientMapper;
         this.getAllPatientsService = getAllPatientsService;
+        this.getPatientByIdService = getPatientByIdService;
         this.logger = LoggerFactory.getLogger(getClass());
     }
 
@@ -59,7 +63,7 @@ public class PatientController {
 
         logger.debug("Input parameters id {}", id);
 
-        Optional<Patient> patient = patientRepository.findById(id);
+        Optional<Patient> patient = getPatientByIdService.getById(id);
 
         if (patient.isEmpty()) return ResponseEntity.notFound().build();
 
