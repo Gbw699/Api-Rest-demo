@@ -50,7 +50,7 @@ class PatientControllerTest {
 
     @Test
     @WithMockUser
-    void getAllPatients() throws Exception {
+    void getAllPatientsTest() throws Exception {
         //given
         List<Patient> patients = new ArrayList<>(
                 Arrays.asList(
@@ -60,13 +60,22 @@ class PatientControllerTest {
                 )
         );
 
+        List<Patient> patients2 = new ArrayList<>(
+                List.of()
+        );
+
         //expectation
-        when(patientRepository.findAll()).thenReturn(patients);
+        when(patientRepository.findAll()).thenReturn(patients, patients2);
 
         //performs
         mockMvc.perform(get("/api/v1/patient")
                         .header("Authorization", "Bearer " + generateTestToken(mock)))
                 .andExpect(status().isOk())
+                .andDo(print());
+
+        mockMvc.perform(get("/api/v1/patient")
+                        .header("Authorization", "Bearer " + generateTestToken(mock)))
+                .andExpect(status().isNoContent())
                 .andDo(print());
     }
 
