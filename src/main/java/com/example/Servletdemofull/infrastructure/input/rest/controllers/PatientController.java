@@ -99,7 +99,7 @@ public class PatientController {
             return new ResponseEntity<>("No se encotró el paciente en la BDD", HttpStatus.NOT_FOUND);
 
         Patient patient = patientToUpdate.get();
-        patient = patientMapper.fromUserDto(patientDto);
+        patient = patientMapper.fromPatientDto(patientDto);
         patientRepository.save(patient);
 
         logger.debug("Output {}", patientDto.toString());
