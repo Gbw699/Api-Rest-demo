@@ -1,13 +1,18 @@
 package com.example.Servletdemofull.infrastructure.input.rest.controllers;
 
-import com.example.Servletdemofull.infrastructure.input.rest.dtos.PatientDto;
-import com.example.Servletdemofull.infrastructure.input.rest.mappers.PatientMapper;
 import com.example.Servletdemofull.infrastructure.output.entity.Patient;
+import com.example.Servletdemofull.infrastructure.input.rest.dtos.PatientDto;
+import com.example.Servletdemofull.application.services.GetAllPatientsService;
+import com.example.Servletdemofull.infrastructure.input.rest.mappers.PatientMapper;
 import com.example.Servletdemofull.infrastructure.output.repository.PatientRepository;
+
 import org.springframework.validation.annotation.Validated;
+
 import jakarta.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,20 +25,25 @@ import java.util.UUID;
 @Validated
 @RequestMapping("/api/v1/patient")
 public class PatientController {
+
     private final PatientRepository patientRepository;
     private final PatientMapper patientMapper;
     private final Logger logger;
+    private final GetAllPatientsService getAllPatientsService;
 
-    public PatientController(PatientRepository patientRepository, PatientMapper patientMapper) {
+    public PatientController(PatientRepository patientRepository,
+                             PatientMapper patientMapper,
+                             GetAllPatientsService getAllPatientsService) {
         this.patientRepository = patientRepository;
         this.patientMapper = patientMapper;
+        this.getAllPatientsService = getAllPatientsService;
         this.logger = LoggerFactory.getLogger(getClass());
     }
 
     @GetMapping("")
     public ResponseEntity<List<Patient>> getAllPatients() {
 
-        Optional<List<Patient>> patients = Optional.of(patientRepository.findAll());
+        Optional<List<Patient>> patients = getAllPatientsService.get();
 
         logger.debug("Output {}", patients.get().toString());
 
