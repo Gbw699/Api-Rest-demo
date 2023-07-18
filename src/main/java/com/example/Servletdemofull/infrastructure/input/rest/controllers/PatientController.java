@@ -1,5 +1,6 @@
 package com.example.Servletdemofull.infrastructure.input.rest.controllers;
 
+import com.example.Servletdemofull.application.services.CreatePatientService;
 import com.example.Servletdemofull.application.services.GetPatientByIdService;
 import com.example.Servletdemofull.infrastructure.output.entity.Patient;
 import com.example.Servletdemofull.infrastructure.input.rest.dtos.PatientDto;
@@ -32,15 +33,18 @@ public class PatientController {
     private final Logger logger;
     private final GetAllPatientsService getAllPatientsService;
     private final GetPatientByIdService getPatientByIdService;
+    private final CreatePatientService createPatientService;
 
     public PatientController(PatientRepository patientRepository,
                              PatientMapper patientMapper,
                              GetAllPatientsService getAllPatientsService,
-                             GetPatientByIdService getPatientByIdService) {
+                             GetPatientByIdService getPatientByIdService,
+                             CreatePatientService createPatientService) {
         this.patientRepository = patientRepository;
         this.patientMapper = patientMapper;
         this.getAllPatientsService = getAllPatientsService;
         this.getPatientByIdService = getPatientByIdService;
+        this.createPatientService = createPatientService;
         this.logger = LoggerFactory.getLogger(getClass());
     }
 
@@ -77,7 +81,7 @@ public class PatientController {
         logger.debug("Input parameter patientDto {}", patientDto);
 
         Patient patient = patientMapper.fromPatientDto(patientDto);
-        patientRepository.save(patient);
+        createPatientService.savePatient(patient);
         PatientDto patientDto1 = patientMapper.fromPatient(patient);
 
         logger.debug("Output {}", patientDto1.toString());
