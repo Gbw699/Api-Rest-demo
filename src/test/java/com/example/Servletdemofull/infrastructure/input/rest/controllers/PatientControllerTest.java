@@ -154,23 +154,6 @@ class PatientControllerTest {
 
     @Test
     @WithMockUser
-    void deleteAllPatients() throws Exception {
-        //given
-        List<Patient> patients = new ArrayList<>();
-
-        //expectation
-//        when(userRepository.findAll()).thenReturn(users);
-        doNothing().when(patientRepository).deleteAll();
-
-        //perform
-        mockMvc.perform(delete("/api/v1/patient")
-                        .header("Authorization", "Bearer " + generateTestToken(mock)))
-                .andExpect(status().isOk())
-                .andDo(print());
-    }
-
-    @Test
-    @WithMockUser
     void deletePatientById() throws Exception {
         //given
         UUID id = UUID.fromString("a0e0a6e5-5b76-4e39-8842-33120204d1d8");
@@ -187,6 +170,23 @@ class PatientControllerTest {
 
         mockMvc.perform(delete("/api/v1/patient/{id}", id))
                 .andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    @Test
+    @WithMockUser
+    void deleteAllPatients() throws Exception {
+        //given
+        List<Patient> patients = new ArrayList<>();
+
+        //expectation
+//        when(userRepository.findAll()).thenReturn(users);
+        doNothing().when(patientRepository).deleteAll();
+
+        //perform
+        mockMvc.perform(delete("/api/v1/patient")
+                        .header("Authorization", "Bearer " + generateTestToken(mock)))
+                .andExpect(status().isOk())
                 .andDo(print());
     }
 
