@@ -107,14 +107,6 @@ public class PatientController {
                 "");
     }
 
-    @DeleteMapping("")
-    public ResponseEntity<String> deleteAllPatients() {
-
-        patientRepository.deleteAll();
-
-        return new ResponseEntity<>("Se eliminaron todos los pacientes de la BDD", HttpStatus.OK);
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePatientById(@PathVariable UUID id) {
         logger.debug("Input parameters id {}", id);
@@ -126,5 +118,13 @@ public class PatientController {
         patientRepository.deleteById(id);
 
         return new ResponseEntity<>("El paciente se borró exitosamente de la BDD", HttpStatus.OK);
+    }
+
+    @DeleteMapping("")
+    public ResponseEntity<String> deleteAllPatients() {
+
+        patientRepository.deleteAll();
+
+        return new ResponseEntity<>("Se eliminaron todos los pacientes de la BDD", HttpStatus.OK);
     }
 }
