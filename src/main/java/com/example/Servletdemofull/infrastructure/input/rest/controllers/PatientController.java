@@ -125,6 +125,7 @@ public class PatientController {
 
         String response = deletePatientByIdService.deleteById(id);
 
+        logger.debug("Output {}", response);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -133,10 +134,12 @@ public class PatientController {
 
         Optional<List<Patient>> user = getAllPatientsService.get();
 
-        if (user.get().isEmpty()) return new ResponseEntity<>("No se encontró ningún paciente en la BDD", HttpStatus.NOT_FOUND);
+        if (user.get().isEmpty())
+            return new ResponseEntity<>("No se encontró ningún paciente en la BDD", HttpStatus.NOT_FOUND);
 
         String response = deleteAllService.delete();
 
+        logger.debug("Output {}", response);
         return new ResponseEntity<>("Se eliminaron todos los pacientes de la BDD", HttpStatus.OK);
     }
 }
