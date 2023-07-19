@@ -177,16 +177,30 @@ class PatientControllerTest {
     @WithMockUser
     void deleteAllPatients() throws Exception {
         //given
-        List<Patient> patients = new ArrayList<>();
+        List<Patient> patients = new ArrayList<>(
+                Arrays.asList(
+                        new Patient(UUID.randomUUID(), "Juan", "Perez", "grg@gmail.com", "+542616320489"),
+                        new Patient(UUID.randomUUID(), "Juan", "Perez", "grg@gmail.com", "+542616320489"),
+                        new Patient(UUID.randomUUID(), "Juan", "Perez", "grg@gmail.com", "+542616320489")
+                )
+        );
+
+        List<Patient> patients2 = new ArrayList<>(
+                List.of()
+        );
 
         //expectation
-//        when(userRepository.findAll()).thenReturn(users);
-        doNothing().when(patientRepository).deleteAll();
+        when(patientRepository.findAll()).thenReturn(patients, patients2);
 
         //perform
         mockMvc.perform(delete("/api/v1/patient")
                         .header("Authorization", "Bearer " + generateTestToken(mock)))
                 .andExpect(status().isOk())
+                .andDo(print());
+
+        mockMvc.perform(delete("/api/v1/patient")
+                        .header("Authorization", "Bearer " + generateTestToken(mock)))
+                .andExpect(status().isNotFound())
                 .andDo(print());
     }
 
