@@ -1,6 +1,6 @@
 package com.example.Servletdemofull.infrastructure.input.rest.controllers;
 
-import com.example.Servletdemofull.application.services.CreatePatientService;
+import com.example.Servletdemofull.application.services.CreateUpdatePatientService;
 import com.example.Servletdemofull.application.services.GetPatientByIdService;
 import com.example.Servletdemofull.infrastructure.output.entity.Patient;
 import com.example.Servletdemofull.infrastructure.input.rest.dtos.PatientDto;
@@ -33,18 +33,18 @@ public class PatientController {
     private final Logger logger;
     private final GetAllPatientsService getAllPatientsService;
     private final GetPatientByIdService getPatientByIdService;
-    private final CreatePatientService createPatientService;
+    private final CreateUpdatePatientService createUpdatePatientService;
 
     public PatientController(PatientRepository patientRepository,
                              PatientMapper patientMapper,
                              GetAllPatientsService getAllPatientsService,
                              GetPatientByIdService getPatientByIdService,
-                             CreatePatientService createPatientService) {
+                             CreateUpdatePatientService createUpdatePatientService) {
         this.patientRepository = patientRepository;
         this.patientMapper = patientMapper;
         this.getAllPatientsService = getAllPatientsService;
         this.getPatientByIdService = getPatientByIdService;
-        this.createPatientService = createPatientService;
+        this.createUpdatePatientService = createUpdatePatientService;
         this.logger = LoggerFactory.getLogger(getClass());
     }
 
@@ -54,7 +54,6 @@ public class PatientController {
         Optional<List<Patient>> patients = getAllPatientsService.get();
 
         logger.debug("Output {}", patients.get().toString());
-
         if (patients.get().isEmpty()) return ResponseEntity.noContent().build();
 
         return ResponseEntity
@@ -64,7 +63,6 @@ public class PatientController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Patient> getPatientById(@PathVariable UUID id) {
-
         logger.debug("Input parameters id {}", id);
 
         Optional<Patient> patient = getPatientByIdService.getById(id);
@@ -72,7 +70,6 @@ public class PatientController {
         if (patient.isEmpty()) return ResponseEntity.notFound().build();
 
         logger.debug("Output {}", patient.get().toString());
-
         return new ResponseEntity<>(patient.get(), HttpStatus.OK);
     }
 
@@ -81,7 +78,7 @@ public class PatientController {
         logger.debug("Input parameter patientDto {}", patientDto);
 
         Patient patient = patientMapper.fromPatientDto(patientDto);
-        createPatientService.savePatient(patient);
+        createUpdatePatientService.savePatient(patient);
         PatientDto patientDto1 = patientMapper.fromPatient(patient);
 
         logger.debug("Output {}", patientDto1.toString());
@@ -90,24 +87,22 @@ public class PatientController {
 
     @PutMapping("/{id}")
     public ResponseEntity<String> updatePatient(@RequestBody @Valid PatientDto patientDto, @PathVariable UUID id) {
-
         logger.debug("Input parameters id {}, body {}", id, patientDto.toString());
 
         if (!id.equals(patientDto.getId())) {
             return new ResponseEntity<>("El id de la URL y el id del json no coinciden", HttpStatus.BAD_REQUEST);
         }
 
-        Optional<Patient> patientToUpdate = patientRepository.findById(id);
+        Optional<Patient> patientToUpdate = getPatientByIdService.getById(id);
 
         if (patientToUpdate.isEmpty())
             return new ResponseEntity<>("No se encotró el paciente en la BDD", HttpStatus.NOT_FOUND);
 
         Patient patient = patientToUpdate.get();
         patient = patientMapper.fromPatientDto(patientDto);
-        patientRepository.save(patient);
+        createUpdatePatientService.savePatient(patient);
 
-        logger.debug("Output {}", patientDto.toString());
-
+        logger.debug("Output {}", patient.toString());
         return ResponseEntity.ok().body("El paciente se editó correctamente en la BDD" +
                 "");
     }
@@ -122,7 +117,6 @@ public class PatientController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePatientById(@PathVariable UUID id) {
-
         logger.debug("Input parameters id {}", id);
 
         Optional<Patient> user = patientRepository.findById(id);

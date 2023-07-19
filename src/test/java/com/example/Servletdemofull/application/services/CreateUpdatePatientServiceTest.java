@@ -14,22 +14,22 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
-class CreatePatientServiceTest {
+class CreateUpdatePatientServiceTest {
 
-    CreatePatientService createPatientService;
+    CreateUpdatePatientService createUpdatePatientService;
     @Mock
     private PatientRepository repository;
 
     @BeforeEach
     void setUp() {
-        createPatientService = new CreatePatientService(repository);
+        createUpdatePatientService = new CreateUpdatePatientService(repository);
     }
 
     @Test
     void savePatient() {
         Patient patient = new Patient(UUID.randomUUID(), "Pedro", "Rodriguez", "rodri@gmial.com", "2614539473");
 
-        Patient actual = createPatientService.savePatient(patient);
+        Patient actual = createUpdatePatientService.savePatient(patient);
 
         Assertions.assertEquals(patient, actual);
     }
