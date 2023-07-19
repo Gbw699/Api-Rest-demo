@@ -1,6 +1,7 @@
 package com.example.Servletdemofull.infrastructure.input.rest.controllers;
 
 import com.example.Servletdemofull.application.services.CreateUpdatePatientService;
+import com.example.Servletdemofull.application.services.DeletePatientByIdService;
 import com.example.Servletdemofull.application.services.GetPatientByIdService;
 import com.example.Servletdemofull.infrastructure.output.entity.Patient;
 import com.example.Servletdemofull.infrastructure.input.rest.dtos.PatientDto;
@@ -34,17 +35,20 @@ public class PatientController {
     private final GetAllPatientsService getAllPatientsService;
     private final GetPatientByIdService getPatientByIdService;
     private final CreateUpdatePatientService createUpdatePatientService;
+    private final DeletePatientByIdService deletePatientByIdService;
 
     public PatientController(PatientRepository patientRepository,
                              PatientMapper patientMapper,
                              GetAllPatientsService getAllPatientsService,
                              GetPatientByIdService getPatientByIdService,
-                             CreateUpdatePatientService createUpdatePatientService) {
+                             CreateUpdatePatientService createUpdatePatientService,
+                             DeletePatientByIdService deletePatientByIdService) {
         this.patientRepository = patientRepository;
         this.patientMapper = patientMapper;
         this.getAllPatientsService = getAllPatientsService;
         this.getPatientByIdService = getPatientByIdService;
         this.createUpdatePatientService = createUpdatePatientService;
+        this.deletePatientByIdService = deletePatientByIdService;
         this.logger = LoggerFactory.getLogger(getClass());
     }
 
@@ -111,13 +115,13 @@ public class PatientController {
     public ResponseEntity<String> deletePatientById(@PathVariable UUID id) {
         logger.debug("Input parameters id {}", id);
 
-        Optional<Patient> user = patientRepository.findById(id);
+        Optional<Patient> user = getPatientByIdService.getById(id);
 
         if (user.isEmpty()) return new ResponseEntity<>("No se encontró el paciente en la BDD", HttpStatus.NOT_FOUND);
 
-        patientRepository.deleteById(id);
+        String response = deletePatientByIdService.deleteById(id);
 
-        return new ResponseEntity<>("El paciente se borró exitosamente de la BDD", HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("")
