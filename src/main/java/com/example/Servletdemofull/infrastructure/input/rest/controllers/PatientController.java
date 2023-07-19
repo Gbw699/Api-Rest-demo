@@ -131,6 +131,10 @@ public class PatientController {
     @DeleteMapping("")
     public ResponseEntity<String> deleteAllPatients() {
 
+        Optional<List<Patient>> user = getAllPatientsService.get();
+
+        if (user.get().isEmpty()) return new ResponseEntity<>("No se encontró ningún paciente en la BDD", HttpStatus.NOT_FOUND);
+
         String response = deleteAllService.delete();
 
         return new ResponseEntity<>("Se eliminaron todos los pacientes de la BDD", HttpStatus.OK);
