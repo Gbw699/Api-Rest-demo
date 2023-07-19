@@ -3,6 +3,7 @@ package com.example.Servletdemofull.infrastructure.input.rest.controllers;
 import com.example.Servletdemofull.application.services.CreateUpdatePatientService;
 import com.example.Servletdemofull.application.services.DeletePatientByIdService;
 import com.example.Servletdemofull.application.services.GetPatientByIdService;
+import com.example.Servletdemofull.application.services.DeleteAllService;
 import com.example.Servletdemofull.infrastructure.output.entity.Patient;
 import com.example.Servletdemofull.infrastructure.input.rest.dtos.PatientDto;
 import com.example.Servletdemofull.application.services.GetAllPatientsService;
@@ -36,19 +37,22 @@ public class PatientController {
     private final GetPatientByIdService getPatientByIdService;
     private final CreateUpdatePatientService createUpdatePatientService;
     private final DeletePatientByIdService deletePatientByIdService;
+    private final DeleteAllService deleteAllService;
 
     public PatientController(PatientRepository patientRepository,
                              PatientMapper patientMapper,
                              GetAllPatientsService getAllPatientsService,
                              GetPatientByIdService getPatientByIdService,
                              CreateUpdatePatientService createUpdatePatientService,
-                             DeletePatientByIdService deletePatientByIdService) {
+                             DeletePatientByIdService deletePatientByIdService,
+                             DeleteAllService deleteAllService) {
         this.patientRepository = patientRepository;
         this.patientMapper = patientMapper;
         this.getAllPatientsService = getAllPatientsService;
         this.getPatientByIdService = getPatientByIdService;
         this.createUpdatePatientService = createUpdatePatientService;
         this.deletePatientByIdService = deletePatientByIdService;
+        this.deleteAllService = deleteAllService;
         this.logger = LoggerFactory.getLogger(getClass());
     }
 
@@ -127,7 +131,7 @@ public class PatientController {
     @DeleteMapping("")
     public ResponseEntity<String> deleteAllPatients() {
 
-        patientRepository.deleteAll();
+        String response = deleteAllService.delete();
 
         return new ResponseEntity<>("Se eliminaron todos los pacientes de la BDD", HttpStatus.OK);
     }
