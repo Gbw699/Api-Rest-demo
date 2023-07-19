@@ -8,7 +8,6 @@ import com.example.Servletdemofull.infrastructure.output.entity.Patient;
 import com.example.Servletdemofull.infrastructure.input.rest.dtos.PatientDto;
 import com.example.Servletdemofull.application.services.GetAllPatientsService;
 import com.example.Servletdemofull.infrastructure.input.rest.mappers.PatientMapper;
-import com.example.Servletdemofull.infrastructure.output.repository.PatientRepository;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -30,7 +29,6 @@ import java.util.UUID;
 @RequestMapping("/api/v1/patient")
 public class PatientController {
 
-    private final PatientRepository patientRepository;
     private final PatientMapper patientMapper;
     private final Logger logger;
     private final GetAllPatientsService getAllPatientsService;
@@ -39,14 +37,12 @@ public class PatientController {
     private final DeletePatientByIdService deletePatientByIdService;
     private final DeleteAllService deleteAllService;
 
-    public PatientController(PatientRepository patientRepository,
-                             PatientMapper patientMapper,
+    public PatientController(PatientMapper patientMapper,
                              GetAllPatientsService getAllPatientsService,
                              GetPatientByIdService getPatientByIdService,
                              CreateUpdatePatientService createUpdatePatientService,
                              DeletePatientByIdService deletePatientByIdService,
                              DeleteAllService deleteAllService) {
-        this.patientRepository = patientRepository;
         this.patientMapper = patientMapper;
         this.getAllPatientsService = getAllPatientsService;
         this.getPatientByIdService = getPatientByIdService;
