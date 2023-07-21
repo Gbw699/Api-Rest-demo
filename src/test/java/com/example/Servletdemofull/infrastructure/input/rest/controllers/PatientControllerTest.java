@@ -21,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.restdocs.RestDocumentationExtension;
 
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -87,7 +88,7 @@ class PatientControllerTest {
         mockMvc.perform(get("/api/v1/patient")
                         .header("Authorization", "Bearer " + generateTestToken(mock)))
                 .andExpect(status().isOk())
-                .andDo(print());
+                .andDo(document("{method-name}"));
 
         mockMvc.perform(get("/api/v1/patient")
                         .header("Authorization", "Bearer " + generateTestToken(mock)))
@@ -109,7 +110,7 @@ class PatientControllerTest {
         mockMvc.perform(get("/api/v1/patient/{id}", id)
                         .header("Authorization", "Bearer " + generateTestToken(mock)))
                 .andExpect(status().isOk())
-                .andDo(print());
+                .andDo(document("{method-name}"));
 
         mockMvc.perform(get("/api/v1/patient/{id}", id)
                         .header("Authorization", "Bearer " + generateTestToken(mock)))
@@ -131,7 +132,7 @@ class PatientControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(patient)))
                 .andExpect(status().isOk())
-                .andDo(print());
+                .andDo(document("{method-name}"));
     }
 
     @Test
@@ -151,7 +152,7 @@ class PatientControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(patient)))
                 .andExpect(status().isOk())
-                .andDo(print());
+                .andDo(document("{method-name}"));
 
         mockMvc.perform(put("/api/v1/patient/{id}", id)
                         .header("Authorization", "Bearer " + generateTestToken(mock))
@@ -182,7 +183,7 @@ class PatientControllerTest {
         mockMvc.perform(delete("/api/v1/patient/{id}", id)
                         .header("Authorization", "Bearer " + generateTestToken(mock)))
                 .andExpect(status().isOk())
-                .andDo(print());
+                .andDo(document("{method-name}"));
 
         mockMvc.perform(delete("/api/v1/patient/{id}", id))
                 .andExpect(status().isNotFound())
@@ -212,7 +213,7 @@ class PatientControllerTest {
         mockMvc.perform(delete("/api/v1/patient")
                         .header("Authorization", "Bearer " + generateTestToken(mock)))
                 .andExpect(status().isOk())
-                .andDo(print());
+                .andDo(document("{method-name}"));
 
         mockMvc.perform(delete("/api/v1/patient")
                         .header("Authorization", "Bearer " + generateTestToken(mock)))
