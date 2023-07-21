@@ -1,0 +1,33 @@
+= Patients
+
+== Endpoints
+
+=== Get all patient
+
+include::{snippets}/get-all-patients-test/http-request.adoc[]
+include::{snippets}/get-all-patients-test/http-response.adoc[]
+
+=== Get patient by id
+
+include::{snippets}/get-patient-by-id-test/http-request.adoc[]
+include::{snippets}/get-patient-by-id-test/http-response.adoc[]
+
+=== Create patient
+
+include::{snippets}/create-patient-test/http-request.adoc[]
+include::{snippets}/create-patient-test/http-response.adoc[]
+
+=== Update patient
+
+include::{snippets}/update-patient-test/http-request.adoc[]
+include::{snippets}/update-patient-test/http-response.adoc[]
+
+=== Delete patient by id
+
+include::{snippets}/delete-patient-by-id-test/http-request.adoc[]
+include::{snippets}/delete-patient-by-id-test/http-response.adoc[]
+
+=== Delete all patients
+
+include::{snippets}/delete-all-patients-test/http-request.adoc[]
+include::{snippets}/delete-all-patients-test/http-response.adoc[]
