@@ -116,3 +116,4 @@ replay_pid*
 /target/surefire-reports/**
 /target/generated-sources/**
 /target/generated-snippets/**
+/target/**
