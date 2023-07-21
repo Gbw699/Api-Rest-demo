@@ -6,11 +6,13 @@ import com.example.Servletdemofull.infrastructure.output.entity.Patient;
 import com.example.Servletdemofull.infrastructure.output.entity.User;
 import com.example.Servletdemofull.infrastructure.output.repository.PatientRepository;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -19,6 +21,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.restdocs.RestDocumentationExtension;
 
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -26,6 +30,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.*;
 
@@ -47,6 +53,16 @@ class PatientControllerTest {
     private JwtService jwtService;
 
     User mock = new User(null, "Juan", "Pedrera", "pedrera@gmail.com", "admin", RoleEnum.ADMIN);
+
+    @BeforeEach
+    void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+                .apply(documentationConfiguration(restDocumentation)
+                        .operationPreprocessors()
+                        .withRequestDefaults(prettyPrint())
+                        .withResponseDefaults(prettyPrint()))
+                .build();
+    }
 
     @Test
     @WithMockUser
@@ -103,7 +119,7 @@ class PatientControllerTest {
 
     @Test
     @WithMockUser
-    void createPatient() throws Exception {
+    void createPatientTest() throws Exception {
         //Given
         Patient patient = new Patient(UUID.randomUUID(), "Juan", "Perez", "grg@gmail.com", "+542616320489");
 
@@ -120,7 +136,7 @@ class PatientControllerTest {
 
     @Test
     @WithMockUser
-    void updatePatient() throws Exception {
+    void updatePatientTest() throws Exception {
         //Given
         UUID id = UUID.randomUUID();
         Patient patient = new Patient(id, "Juan", "Perez", "grg@gmail.com", "+542616320489");
@@ -154,7 +170,7 @@ class PatientControllerTest {
 
     @Test
     @WithMockUser
-    void deletePatientById() throws Exception {
+    void deletePatientByIdTest() throws Exception {
         //given
         UUID id = UUID.fromString("a0e0a6e5-5b76-4e39-8842-33120204d1d8");
         Patient patient = new Patient(id, "Juan", "Perez", "grg@gmail.com", "+542616320489");
@@ -175,7 +191,7 @@ class PatientControllerTest {
 
     @Test
     @WithMockUser
-    void deleteAllPatients() throws Exception {
+    void deleteAllPatientsTest() throws Exception {
         //given
         List<Patient> patients = new ArrayList<>(
                 Arrays.asList(
