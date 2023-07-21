@@ -1,0 +1,11 @@
+= Api Authentication
+
+== Register endpoint
+include::{snippets}/register-test/http-request.adoc[]
+include::{snippets}/register-test/http-response.adoc[]
+
+== Authentication endpoint
+include::{snippets}/authentication-test/http-request.adoc[]
+include::{snippets}/authentication-test/http-response.adoc[]
+
+
