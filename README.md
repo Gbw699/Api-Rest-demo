@@ -9,3 +9,4 @@
 - Docker
 - Lombok
 - Mapstruck
+- Spinrg REST docs
