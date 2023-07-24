@@ -1,6 +1,6 @@
 services:
-  servlet_db:
-    container_name: servlet_db
+  Database:
+    container_name: api-rest-demo_db
     image: postgres:15.3
     ports:
       - "5432:5432"
@@ -9,16 +9,16 @@ services:
        POSTGRES_PASSWORD: admin
        POSTGRES_DB: postgres
 
-  servlet_app:
-    container_name: servlet_app
-    image: servlet:1.0.0
+  Api:
+    container_name: api-rest-demo_app
+    image: api-rest-demo:1.0.0
     build: .
     ports:
       - "8080:8080"
     environment:
-      - DATABASE_URL=jdbc:postgresql://servlet_db:5432/postgres
+      - DATABASE_URL=jdbc:postgresql://Database:5432/postgres
       - DATABASE_USERNAME=postgres
       - DATABASE_PASSWORD=admin
     depends_on:
-      - servlet_db
+      - Database
 
