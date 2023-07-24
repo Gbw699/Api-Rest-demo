@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.18">
-<title>Patients</title>
+<title>Api Rest DEMO</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -438,18 +438,79 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="book">
 <div id="header">
-<h1>Patients</h1>
+<h1>Api Rest DEMO</h1>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_endpoints">Endpoints</h2>
+<h2 id="_api_authentication">Api Authentication</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_register">Register</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/auth/register HTTP/1.1
+Content-Type: application/json
+Content-Length: 113
+Host: localhost:8080
+
+{
+  "firstname" : "Juan",
+  "lastname" : "Carlos",
+  "email" : "jcarlos@gmail.com",
+  "password" : "admin"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 167
+
+{
+  "token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqY2FybG9zQGdtYWlsLmNvbSIsImlhdCI6MTY5MDIwMjM1NSwiZXhwIjoxNjkwMjAzNzk1fQ.w_Nec7uXrGObhQfz3VtxeIcNIuuwBH4d82PnnVwICHM"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_authentication">Authentication</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/auth/authentication HTTP/1.1
+Content-Type: application/json
+Content-Length: 62
+Host: localhost:8080
+
+{
+  "email" : "jcarlos@gmail.com",
+  "password" : "admin"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 167
+
+{
+  "token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqY2FybG9zQGdtYWlsLmNvbSIsImlhdCI6MTY5MDIwMjM1NSwiZXhwIjoxNjkwMjAzNzk1fQ.w_Nec7uXrGObhQfz3VtxeIcNIuuwBH4d82PnnVwICHM"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_patients">Patients</h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_get_all_patient">Get all patient</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/patient HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwZWRyZXJhQGdtYWlsLmNvbSIsImlhdCI6MTY4OTk2MTkwMywiZXhwIjoxNjg5OTYzMzQzfQ.lPdjxthBsnxgEvZBF_8Wp65ANDZ85Nrd0QHAXheFKbA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwZWRyZXJhQGdtYWlsLmNvbSIsImlhdCI6MTY5MDIwMjM1NiwiZXhwIjoxNjkwMjAzNzk2fQ.uUs1QpN8qhHddelO3gU-PNwmcE052GJcN0ahOvIcUQY
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -460,19 +521,19 @@ Content-Type: application/json
 Content-Length: 512
 
 [ {
-  "id" : "b6960110-f2ab-4276-b2d4-c16f76359693",
+  "id" : "5d40e95e-bd42-43a9-8b0e-228b14287743",
   "name" : "Juan",
   "lastName" : "Perez",
   "email" : "grg@gmail.com",
   "cellphoneNumber" : "+542616320489"
 }, {
-  "id" : "c4795aad-a711-428e-bff4-3160089aef2e",
+  "id" : "4e06c549-54a3-4416-8f69-1b6d288e5424",
   "name" : "Juan",
   "lastName" : "Perez",
   "email" : "grg@gmail.com",
   "cellphoneNumber" : "+542616320489"
 }, {
-  "id" : "df620d6d-3717-4f32-a94e-2638d19d01dd",
+  "id" : "2a397b20-9d08-474a-a670-306a03ba8d9d",
   "name" : "Juan",
   "lastName" : "Perez",
   "email" : "grg@gmail.com",
@@ -486,7 +547,7 @@ Content-Length: 512
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/patient/9bc28702-826b-4d60-b4c5-015f24484d6d HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwZWRyZXJhQGdtYWlsLmNvbSIsImlhdCI6MTY4OTk2MTkwMywiZXhwIjoxNjg5OTYzMzQzfQ.lPdjxthBsnxgEvZBF_8Wp65ANDZ85Nrd0QHAXheFKbA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwZWRyZXJhQGdtYWlsLmNvbSIsImlhdCI6MTY5MDIwMjM1NiwiZXhwIjoxNjkwMjAzNzk2fQ.uUs1QpN8qhHddelO3gU-PNwmcE052GJcN0ahOvIcUQY
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -512,12 +573,12 @@ Content-Length: 168
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/patient HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwZWRyZXJhQGdtYWlsLmNvbSIsImlhdCI6MTY4OTk2MTkwMywiZXhwIjoxNjg5OTYzMzQzfQ.lPdjxthBsnxgEvZBF_8Wp65ANDZ85Nrd0QHAXheFKbA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwZWRyZXJhQGdtYWlsLmNvbSIsImlhdCI6MTY5MDIwMjM1NiwiZXhwIjoxNjkwMjAzNzk2fQ.uUs1QpN8qhHddelO3gU-PNwmcE052GJcN0ahOvIcUQY
 Content-Length: 168
 Host: localhost:8080
 
 {
-  "id" : "7087a72a-1c58-452e-a79a-a31438629ac5",
+  "id" : "c9118cbb-576b-48aa-9fde-81baabfb72f5",
   "name" : "Juan",
   "lastName" : "Perez",
   "email" : "grg@gmail.com",
@@ -532,7 +593,7 @@ Content-Type: application/json
 Content-Length: 168
 
 {
-  "id" : "7087a72a-1c58-452e-a79a-a31438629ac5",
+  "id" : "c9118cbb-576b-48aa-9fde-81baabfb72f5",
   "name" : "Juan",
   "lastName" : "Perez",
   "email" : "grg@gmail.com",
@@ -545,14 +606,14 @@ Content-Length: 168
 <h3 id="_update_patient">Update patient</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/patient/a6d7480e-dd89-4224-9ea3-6c4abb5092fb HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/patient/66a8a6d3-9b07-4b53-98a7-6121a07dc4be HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwZWRyZXJhQGdtYWlsLmNvbSIsImlhdCI6MTY4OTk2MTkwMywiZXhwIjoxNjg5OTYzMzQzfQ.lPdjxthBsnxgEvZBF_8Wp65ANDZ85Nrd0QHAXheFKbA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwZWRyZXJhQGdtYWlsLmNvbSIsImlhdCI6MTY5MDIwMjM1NiwiZXhwIjoxNjkwMjAzNzk2fQ.uUs1QpN8qhHddelO3gU-PNwmcE052GJcN0ahOvIcUQY
 Content-Length: 168
 Host: localhost:8080
 
 {
-  "id" : "a6d7480e-dd89-4224-9ea3-6c4abb5092fb",
+  "id" : "66a8a6d3-9b07-4b53-98a7-6121a07dc4be",
   "name" : "Juan",
   "lastName" : "Perez",
   "email" : "grg@gmail.com",
@@ -575,7 +636,7 @@ El paciente se editó correctamente en la BDD</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/v1/patient/a0e0a6e5-5b76-4e39-8842-33120204d1d8 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwZWRyZXJhQGdtYWlsLmNvbSIsImlhdCI6MTY4OTk2MTkwMywiZXhwIjoxNjg5OTYzMzQzfQ.lPdjxthBsnxgEvZBF_8Wp65ANDZ85Nrd0QHAXheFKbA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwZWRyZXJhQGdtYWlsLmNvbSIsImlhdCI6MTY5MDIwMjM1NiwiZXhwIjoxNjkwMjAzNzk2fQ.uUs1QpN8qhHddelO3gU-PNwmcE052GJcN0ahOvIcUQY
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -594,7 +655,7 @@ El paciente se borró exitosamente de la BDD</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/v1/patient HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwZWRyZXJhQGdtYWlsLmNvbSIsImlhdCI6MTY4OTk2MTkwMywiZXhwIjoxNjg5OTYzMzQzfQ.lPdjxthBsnxgEvZBF_8Wp65ANDZ85Nrd0QHAXheFKbA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwZWRyZXJhQGdtYWlsLmNvbSIsImlhdCI6MTY5MDIwMjM1NiwiZXhwIjoxNjkwMjAzNzk2fQ.uUs1QpN8qhHddelO3gU-PNwmcE052GJcN0ahOvIcUQY
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -613,7 +674,7 @@ Se eliminaron todos los pacientes de la BDD</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-07-21 14:43:59 -0300
+Last updated 2023-07-24 09:36:07 -0300
 </div>
 </div>
 </body>

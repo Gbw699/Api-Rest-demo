@@ -1,6 +1,18 @@
-= Patients
+= Api Rest DEMO
 
-== Endpoints
+== Api Authentication
+
+=== Register
+
+include::{snippets}/register-test/http-request.adoc[]
+include::{snippets}/register-test/http-response.adoc[]
+
+=== Authentication
+
+include::{snippets}/authentication-test/http-request.adoc[]
+include::{snippets}/authentication-test/http-response.adoc[]
+
+== Patients
 
 === Get all patient
 
