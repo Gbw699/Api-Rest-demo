@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'com.example.Servlet-demo-full' is invalid and this project uses 'com.example.Servletdemofull' instead.
+* The original package name 'com.example.Servlet-demo-full' is invalid and this project uses 'com.example.ApiRestDemo' instead.
 
 # Getting Started
 
